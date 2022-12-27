@@ -1,0 +1,32 @@
+name: teklifyap_mobil2
+description: Mobile Programming Term Project
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0-53.0.dev <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.5
+  http: ^0.13.3
+  jwt_decode: ^0.3.1
+  get_storage: ^2.0.3
+
+  cupertino_icons: ^1.0.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+
+  uses-material-design: true
+
+flutter_icons:
+  android: true
+  ios: true
+#  image_path: "assets/images/log"
