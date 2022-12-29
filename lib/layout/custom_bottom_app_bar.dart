@@ -28,7 +28,7 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
             icon: const Icon(Icons.home),
             onPressed: () {
               if (widget.from != BottomAppBarType.home) {
-                Get.offAll(() => const Home());
+                Get.offAll(() => const Home(email: "",password: "",));//parametreler deneme amaçlı
               }
             },
           ),

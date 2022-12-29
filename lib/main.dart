@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:teklifyap_mobil2/screens/home/home_screen.dart';
+import 'package:teklifyap_mobil2/screens/initial/initial_screen.dart';
 import 'package:teklifyap_mobil2/style/colors.dart';
 
 void main() {
@@ -20,7 +20,7 @@ class Teklifyap extends StatelessWidget {
           primary: ThemeColors.primaryColor,
         ),
       ),
-      home: const Home(),
+      home: const InitialScreen(),
     );
   }
 }
