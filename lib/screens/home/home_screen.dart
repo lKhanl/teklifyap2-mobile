@@ -5,7 +5,11 @@ import 'package:teklifyap_mobil2/layout/custom_app_bar.dart';
 import '../../layout/custom_bottom_app_bar.dart';
 
 class Home extends StatefulWidget {
-  const Home({super.key});
+  const Home({super.key, required this.email, required this.password});
+
+  //deneme amaçlı koyuldu
+  final String email;
+  final String password;
 
   @override
   State<Home> createState() => _HomeState();
@@ -21,9 +25,13 @@ class _HomeState extends State<Home> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const <Widget>[
+          children:  <Widget>[
+            //deneme amaçlı koyuldu
             Text(
-              'This is a home page (Landing Page)',
+              widget.email,
+            ),
+            Text(
+              widget.password,
             ),
           ],
         ),
