@@ -15,7 +15,7 @@ class Profile {
   final int id;
   final String name;
   final String surname;
-  final String email;
+  late final String email;
 
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
     id: json["id"],
