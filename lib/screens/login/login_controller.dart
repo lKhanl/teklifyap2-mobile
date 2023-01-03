@@ -1,11 +1,14 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 import '../../Base.dart';
 import '../../models/profile_model.dart';
+import '../../style/colors.dart';
+import '../profile/profile_screen.dart';
 
 class LoginController extends GetxController {
   @override
@@ -27,8 +30,14 @@ class LoginController extends GetxController {
     if (response.statusCode == 200) {
       var token = json.decode(response.body)['data'];
       GetStorage().write('token', token);
+      Get.offAll(() => ProfileScreen());
     } else {
-      throw Exception('Failed to load post');
+      if (response.body.contains('BadCredentials')) {
+        Get.snackbar('Error', 'Bad Credentials',
+            backgroundColor: ThemeColors.error);
+      } else {
+        Get.snackbar('Error', 'Something went wrong');
+      }
     }
   }
 }

@@ -4,6 +4,7 @@ import 'package:teklifyap_mobil2/layout/custom_header.dart';
 import 'package:teklifyap_mobil2/layout/custom_text_field.dart';
 import 'package:teklifyap_mobil2/screens/login/login_controller.dart';
 import 'package:teklifyap_mobil2/screens/profile/profile_screen.dart';
+import 'package:teklifyap_mobil2/screens/register/register_screen.dart';
 import 'package:teklifyap_mobil2/style/colors.dart';
 
 import '../home/home_screen.dart';
@@ -82,7 +83,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 _controller.login(email, password);
-                                Get.offAll(() => ProfileScreen());
                               }
                             },
                             child: const Text('Login',
@@ -99,13 +99,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text('Hesabın yok mu?'),
+                            const Text('Don\'t have an account?'),
                             TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Get.offAll(() => const RegisterScreen());
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.transparent,
+                              ),
                               child: Text(
-                                'Kayıt Ol',
+                                'Register now',
                                 style: TextStyle(
-                                  color: ThemeColors.primaryColor,
+                                  color: Colors.blueAccent,
                                 ),
                               ),
                             ),
