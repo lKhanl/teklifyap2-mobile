@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teklifyap_mobil2/enums/bottom_app_bar_type.dart';
+import 'package:teklifyap_mobil2/layout/custom_text_field.dart';
 import 'package:teklifyap_mobil2/screens/profile/profile_controller.dart';
 
 import '../../layout/custom_app_bar.dart';
@@ -78,18 +79,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Container(
                           width:
                               (MediaQuery.of(context).size.width - 20) * 0.45,
-                          child: TextField(
+                          // child: TextField(
+                          //   controller: TextEditingController(
+                          //       text: profile.name.toString()),
+                          //   onChanged: (value) {
+                          //     name = value;
+                          //   },
+                          //   decoration: InputDecoration(
+                          //     labelText: 'First Name',
+                          //     border: OutlineInputBorder(
+                          //       borderRadius: BorderRadius.circular(8),
+                          //     ),
+                          //   ),
+                          // ),
+                          child: CustomTextField(
+                            color: ThemeColors.secondaryColor,
+                            placeholder: "First Name",
                             controller: TextEditingController(
                                 text: profile.name.toString()),
-                            onChanged: (value) {
+                            onChange: (value) {
                               name = value;
                             },
-                            decoration: InputDecoration(
-                              labelText: 'First Name',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
                           ),
                         ),
                         SizedBox(

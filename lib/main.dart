@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:teklifyap_mobil2/screens/initial/initial_screen.dart';
-import 'package:teklifyap_mobil2/style/colors.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   runApp(const Teklifyap());
 }
 
@@ -12,15 +13,10 @@ class Teklifyap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
+    return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Teklifyap',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: ThemeColors.primaryColor,
-        ),
-      ),
-      home: const InitialScreen(),
+      title: 'teklifyap',
+      home: InitialScreen(),
     );
   }
 }

@@ -1,15 +1,24 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:teklifyap_mobil2/screens/login/login_screen.dart';
 
 import '../../Base.dart';
 import '../../models/profile_model.dart';
 
 class ProfileController extends GetxController {
+  late String token;
   @override
   void onInit() async {
     super.onInit();
+    token = GetStorage().read('token');
+    if (token == "") {
+      GetStorage().write('token', '');
+      Get.offAll(() => const LoginScreen());
+    }
   }
 
   get profile => _getProfile();
@@ -17,13 +26,15 @@ class ProfileController extends GetxController {
   Future<Profile> _getProfile() async {
     final response =
         await http.get(Uri.parse("${Base.url}/api/v2/user/profile"), headers: {
-      "Authorization":
-          "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvZ3V6aGFuZXJjZWxpa0BnbWFpbC5jb20iLCJleHAiOjE2NzIzNDkxMDcsImlhdCI6MTY3MjI2MjcwN30.NpYYELI9qI1pNWsYmkt9H2pRwkoy0IOdRUcHeqsL8gcSiV6Ot1lZYCEroI4ecmlBKPhfBOjeAmkd7mEgeZlpIg",
+      "Authorization": "Bearer $token",
+      "Content-Type": "application/json",
     });
     if (response.statusCode == 200) {
       var result = Profile.fromJson(json.decode(response.body)['data']);
       return result;
     } else {
+      print(response.body);
+      print(GetStorage().read('token'));
       throw Exception('Failed to load post');
     }
   }
@@ -40,13 +51,12 @@ class ProfileController extends GetxController {
             }),
             headers: {
           "Content-Type": "application/json",
-          "Authorization":
-              "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvZ3V6aGFuZXJjZWxpazJAZ21haWwuY29tIiwiZXhwIjoxNjcyMzU0NzA5LCJpYXQiOjE2NzIyNjgzMDl9.M2nDH8uMGjhdYMVcXnW95ppCSRZAilcPYPmmeqWMCfKmvGmxY1eyAwzEaCsIQAk6rZerQsTxd3vBPA7dsaOsZw",
+          "Authorization": "Bearer $token",
         });
     if (response.statusCode == 200) {
       return true;
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw Exception('Failed to load post');
     }
   }
