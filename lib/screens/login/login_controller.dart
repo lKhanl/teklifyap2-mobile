@@ -1,12 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 
 import '../../Base.dart';
-import '../../models/profile_model.dart';
 import '../../style/colors.dart';
 import '../profile/profile_screen.dart';
 

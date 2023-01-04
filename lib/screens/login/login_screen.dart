@@ -3,11 +3,8 @@ import 'package:get/get.dart';
 import 'package:teklifyap_mobil2/layout/custom_header.dart';
 import 'package:teklifyap_mobil2/layout/custom_text_field.dart';
 import 'package:teklifyap_mobil2/screens/login/login_controller.dart';
-import 'package:teklifyap_mobil2/screens/profile/profile_screen.dart';
 import 'package:teklifyap_mobil2/screens/register/register_screen.dart';
 import 'package:teklifyap_mobil2/style/colors.dart';
-
-import '../home/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);

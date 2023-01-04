@@ -1,11 +1,11 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:teklifyap_mobil2/screens/login/login_screen.dart';
+import 'package:teklifyap_mobil2/screens/register/register_controller.dart';
 
-import '../../layout/custom_app_bar.dart';
+import '../../layout/custom_header.dart';
+import '../../layout/custom_text_field.dart';
+import '../../style/colors.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -24,6 +24,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _passwordController = TextEditingController();
   final _nameController = TextEditingController();
   final _surnameController = TextEditingController();
+  final _controller = RegisterController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -32,165 +33,117 @@ class _RegisterScreenState extends State<RegisterScreen> {
   late FocusNode isClickedName = FocusNode();
   late FocusNode isClickedSurname = FocusNode();
 
-
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-        preferredSize: Size.fromHeight(60),
-        child: CustomAppBar(title: "teklifyap",),
-      ),
-      body: Center(
-        child: _buildLoginForm(),
-      ),
-    );
-  }
-
-  Widget _buildLoginForm(){
-    return Form(
-      key: _formKey,
-      child:
-      Padding(
-        padding: const EdgeInsets.all(65),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: TextField(
-                controller: _nameController,
-                decoration: InputDecoration(
-
-                  prefixIcon: const Icon(Icons.person_rounded,color: Colors.black38,),
-                  labelText: "Name",
-                  labelStyle: TextStyle(
-                      color: isClickedName.hasFocus ?  Colors.green : Colors.black38
-                  ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                        width: 2,
-                        color: Colors.green
+      // gradient background
+      body: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              ThemeColors.primaryColor,
+              ThemeColors.secondaryColor,
+            ],
+          ),
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  CustomHeader(title: 'Register Form'),
+                  const SizedBox(height: 20),
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      children: [
+                        CustomTextField(
+                          placeholder: 'Name',
+                          controller: _nameController,
+                          prefixIcon: Icon(Icons.person),
+                          onChange: (value) {
+                            name = value;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          placeholder: 'Surname',
+                          controller: _surnameController,
+                          prefixIcon: Icon(Icons.person),
+                          onChange: (value) {
+                            surname = value;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          placeholder: 'Email',
+                          controller: _emailController,
+                          prefixIcon: Icon(Icons.email),
+                          onChange: (value) {
+                            email = value;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        CustomTextField(
+                          placeholder: 'Password',
+                          controller: _passwordController,
+                          prefixIcon: Icon(Icons.lock),
+                          onChange: (value) {
+                            password = value;
+                          },
+                          isPassword: true,
+                        ),
+                        const SizedBox(height: 20),
+                        Container(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _controller.register(
+                                  name, surname, email, password);
+                            },
+                            child: const Text('Register',
+                                style: TextStyle(color: Colors.black)),
+                            style: ElevatedButton.styleFrom(
+                              primary: ThemeColors.primaryColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('Have an account?'),
+                            TextButton(
+                              onPressed: () {
+                                Get.offAll(() => const LoginScreen());
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.transparent,
+                              ),
+                              child: Text(
+                                'Login now',
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
-                  border: const OutlineInputBorder(),
-                ),
-                keyboardType: TextInputType.text,
-                inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.singleLineFormatter],
-                focusNode: isClickedName,
-                onChanged: (value) {
-                  // _setPhoneNumber(value);
-                  // _onChanged(value);
-                },
+                ],
               ),
             ),
-
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: TextField(
-                controller: _surnameController,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.person_rounded,color: Colors.black38),
-                  labelText: "Surname",
-                  labelStyle: TextStyle(
-                      color: isClickedSurname.hasFocus ?  Colors.green : Colors.black38
-                  ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                        width: 2,
-                        color: Colors.green
-                    ),
-                  ),
-                  border: const OutlineInputBorder(),
-                ),
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                keyboardType: TextInputType.text,
-                inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.singleLineFormatter],
-                focusNode: isClickedSurname,
-                onChanged: (value) {
-                  // _setPhoneNumber(value);
-                  // _onChanged(value);
-                },
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.all(15),
-              child: TextField(
-                controller: _emailController,
-                decoration: InputDecoration(
-
-                  prefixIcon: const Icon(Icons.email_rounded,color: Colors.black38,),
-                  labelText: "Email",
-                  labelStyle: TextStyle(
-                      color: isClickedEmail.hasFocus ?  Colors.green : Colors.black38
-                  ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                        width: 2,
-                        color: Colors.green
-                    ),
-                  ),
-                  border: const OutlineInputBorder(),
-                ),
-                keyboardType: TextInputType.emailAddress,
-                inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.singleLineFormatter],
-                focusNode: isClickedEmail,
-                onChanged: (value) {
-                  // _setPhoneNumber(value);
-                  // _onChanged(value);
-                },
-              ),
-            ),
-
-            Padding(
-              padding: const EdgeInsets.only(left: 15,right: 15,top: 15,bottom: 65),
-              child: TextField(
-                controller: _passwordController,
-                decoration: InputDecoration(
-                  prefixIcon: const Icon(Icons.password_rounded,color: Colors.black38),
-                  labelText: "Password",
-                  labelStyle: TextStyle(
-                      color: isClickedPassword.hasFocus ?  Colors.green : Colors.black38
-                  ),
-                  focusedBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(
-                        width: 2,
-                        color: Colors.green
-                    ),
-                  ),
-                  border: const OutlineInputBorder(),
-                ),
-                obscureText: true,
-                enableSuggestions: false,
-                autocorrect: false,
-                keyboardType: TextInputType.text,
-                inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.singleLineFormatter],
-                focusNode: isClickedPassword,
-                onChanged: (value) {
-                  // _setPhoneNumber(value);
-                  // _onChanged(value);
-                },
-              ),
-            ),
-
-            ElevatedButton(
-              onPressed: () {
-                name = _nameController.text;
-                surname = _surnameController.text;
-                email= _emailController.text;
-                password = _passwordController.text;
-                Get.offAll(() => const LoginScreen());
-
-              },
-              style: ElevatedButton.styleFrom(
-                  fixedSize: const Size(130, 40),
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50))),
-              child: const Text('Register',style: TextStyle(color: Colors.black)),
-
-            )          ],
+          ),
         ),
       ),
     );

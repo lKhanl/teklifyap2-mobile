@@ -1,7 +1,5 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:teklifyap_mobil2/screens/login/login_screen.dart';
 import 'package:teklifyap_mobil2/screens/register/register_screen.dart';
 import 'package:teklifyap_mobil2/style/colors.dart';
