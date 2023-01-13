@@ -7,6 +7,7 @@ class CustomTextField extends StatefulWidget {
   final bool? isPassword;
   final Function? onChange;
   final TextEditingController? controller;
+  final bool? enabled;
 
   const CustomTextField(
       {super.key,
@@ -15,7 +16,8 @@ class CustomTextField extends StatefulWidget {
       this.isPassword,
       this.onChange,
       this.controller,
-      this.prefixIcon});
+      this.prefixIcon,
+      this.enabled});
 
   @override
   State<StatefulWidget> createState() {
@@ -29,7 +31,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   late Color color;
   late Function? onChange;
   late Icon? icon;
-
+  late bool? enabled;
 
   @override
   void initState() {
@@ -39,33 +41,32 @@ class _CustomTextFieldState extends State<CustomTextField> {
     isPassword = widget.isPassword ?? false;
     onChange = widget.onChange;
     icon = widget.prefixIcon;
+    enabled = widget.enabled ?? true;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      // color: Colors.white,
-      child: TextField(
-        onChanged: (value) {
-          onChange!(value);
-        },
-        cursorColor: color,
-        obscureText: isPassword,
-        controller: widget.controller,
-        decoration: InputDecoration(
-          prefixIcon: icon,
-          prefixIconColor: color,
-          labelText: placeholder,
-          labelStyle: TextStyle(color: Colors.black),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: color, width: 1.5),
-            borderRadius: BorderRadius.circular(8),
-          ),
-          hoverColor: color,
-          focusColor: color,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+    return TextField(
+      enabled: enabled,
+      onChanged: (value) {
+        onChange!(value);
+      },
+      cursorColor: color,
+      obscureText: isPassword,
+      controller: widget.controller,
+      decoration: InputDecoration(
+        prefixIcon: icon,
+        prefixIconColor: color,
+        labelText: placeholder,
+        labelStyle: const TextStyle(color: Colors.black),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: color, width: 1.5),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        hoverColor: color,
+        focusColor: color,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
         ),
       ),
     );
