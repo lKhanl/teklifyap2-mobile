@@ -10,13 +10,13 @@ class Item {
 
   int id;
   String name;
-  double value;
+  String value;
   String unit;
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
         id: json["id"],
         name: json["name"],
-        value: json["value"],
+        value: json["value"].toString(),
         unit: json["unit"],
       );
 

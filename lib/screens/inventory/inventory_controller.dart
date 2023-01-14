@@ -29,6 +29,8 @@ class InventoryController extends GetxController {
 
   void updateItem(int id, String value) => _update(id, value);
 
+  void deleteItem(int id) => _delete(id);
+
   Future<List<ShortItem>> _getItems() async {
     final response =
         await http.get(Uri.parse("${Base.url}/api/v2/item"), headers: {
@@ -64,14 +66,32 @@ class InventoryController extends GetxController {
   }
 
   void _update(int id, String value) async {
-    final response =
-        await http.put(Uri.parse("${Base.url}/api/v2/item/$id"), headers: {
-      "Authorization": "Bearer $token",
-    }, body: {
-      "value": value,
-    });
+    final response = await http.put(Uri.parse("${Base.url}/api/v2/item/$id"),
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer $token",
+        },
+        body: jsonEncode({
+          "value": value,
+        }));
     if (response.statusCode == 200) {
       Get.snackbar('Successfully', "Value updated!",
+          backgroundColor: ThemeColors.success);
+    } else {
+      Get.snackbar('Error', json.decode(response.body)['error'],
+          backgroundColor: ThemeColors.error);
+      throw Exception('Failed to load items');
+    }
+  }
+
+  void _delete(int id) async {
+    final response =
+        await http.delete(Uri.parse("${Base.url}/api/v2/item/$id"), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    });
+    if (response.statusCode == 200) {
+      Get.snackbar('Successfully', "Item deleted!",
           backgroundColor: ThemeColors.success);
     } else {
       Get.snackbar('Error', json.decode(response.body)['error'],

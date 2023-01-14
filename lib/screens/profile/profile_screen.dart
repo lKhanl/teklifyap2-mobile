@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teklifyap_mobil2/enums/bottom_app_bar_type.dart';
+import 'package:teklifyap_mobil2/layout/custom_button.dart';
 import 'package:teklifyap_mobil2/layout/custom_text_field.dart';
 import 'package:teklifyap_mobil2/screens/profile/profile_controller.dart';
 
@@ -18,10 +19,11 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final ProfileController _controller = Get.put(ProfileController());
-  String name = "";
-  String surname = "";
-  String email = "";
-  String pass = "";
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController surnameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +37,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var profile = snapshot.data as Profile;
-            name = profile.name;
-            surname = profile.surname;
-            email = profile.email;
+            nameController.text = profile.name;
+            surnameController.text = profile.surname;
+            emailController.text = profile.email;
+            passController.text = "";
+
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -76,29 +80,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
+                        SizedBox(
                           width:
                               (MediaQuery.of(context).size.width - 20) * 0.45,
-                          // child: TextField(
-                          //   controller: TextEditingController(
-                          //       text: profile.name.toString()),
-                          //   onChanged: (value) {
-                          //     name = value;
-                          //   },
-                          //   decoration: InputDecoration(
-                          //     labelText: 'First Name',
-                          //     border: OutlineInputBorder(
-                          //       borderRadius: BorderRadius.circular(8),
-                          //     ),
-                          //   ),
-                          // ),
                           child: CustomTextField(
-                            color: ThemeColors.secondaryColor,
                             placeholder: "First Name",
-                            controller: TextEditingController(
-                                text: profile.name.toString()),
+                            controller: nameController,
                             onChange: (value) {
-                              name = value;
+                              nameController.text = value;
                             },
                           ),
                         ),
@@ -106,21 +95,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           width:
                               (MediaQuery.of(context).size.width - 20) * 0.05,
                         ),
-                        Container(
+                        SizedBox(
                           width:
                               (MediaQuery.of(context).size.width - 20) * 0.45,
-                          child: TextField(
+                          child: CustomTextField(
+                            placeholder: 'Surname',
                             controller: TextEditingController(
                                 text: profile.surname.toString()),
-                            onChanged: (value) {
-                              surname = value;
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Surname',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                            ),
                           ),
                         ),
                       ],
@@ -129,44 +110,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         width: (MediaQuery.of(context).size.width - 40),
-                        child: TextField(
-                          controller: TextEditingController(
-                              text: profile.email.toString()),
-                          onChanged: (value) {
-                            email = value;
+                        child: CustomTextField(
+                          controller: emailController,
+                          placeholder: 'Email',
+                          onChange: (value) {
+                            emailController.text = value;
                           },
-                          decoration: InputDecoration(
-                            labelText: 'Email',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
+                      SizedBox(
                         width: (MediaQuery.of(context).size.width - 40),
-                        child: TextField(
-                          controller: TextEditingController(text: pass),
-                          obscureText: true,
-                          enableSuggestions: false,
-                          autocorrect: false,
-                          onChanged: (value) {
-                            pass = value;
+                        child: CustomTextField(
+                          controller: passController,
+                          placeholder: 'Password',
+                          isPassword: true,
+                          onChange: (value) {
+                            passController.text = value;
                           },
-                          decoration: InputDecoration(
-                            labelText: 'Password',
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
                         ),
                       ),
                     ],
@@ -174,22 +142,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Container(
                     margin: const EdgeInsets.only(top: 16),
                     width: (MediaQuery.of(context).size.width - 40),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: ThemeColors.secondaryColor,
-                        onPrimary: Colors.black,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                      ),
+                    child: CustomButton(
+                      backgroundColor: ThemeColors.secondaryColor,
                       onPressed: () {
-                        _controller
-                            .updateProfile(name, surname, email, pass)
-                            .then((value) => printInfo(info: value.toString()))
-                            .catchError(
-                                (error) => printError(info: error.toString()));
+                        _controller.updateProfile(
+                            nameController.text,
+                            surnameController.text,
+                            emailController.text,
+                            passController.text);
                       },
-                      child: const Text('Save'),
+                      title: 'Update',
+                    ),
+                  ),
+                  SizedBox(
+                    width: (MediaQuery.of(context).size.width - 40),
+                    child: CustomButton(
+                      backgroundColor: ThemeColors.error,
+                      title: 'Delete Account',
+                      onPressed: () {
+                        _controller.deleteProfile();
+                      },
                     ),
                   ),
                 ],

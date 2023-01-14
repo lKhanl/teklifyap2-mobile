@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextField extends StatefulWidget {
   final Icon? prefixIcon;
@@ -8,6 +9,7 @@ class CustomTextField extends StatefulWidget {
   final Function? onChange;
   final TextEditingController? controller;
   final bool? enabled;
+  final bool? isNumber;
 
   const CustomTextField(
       {super.key,
@@ -17,7 +19,8 @@ class CustomTextField extends StatefulWidget {
       this.onChange,
       this.controller,
       this.prefixIcon,
-      this.enabled});
+      this.enabled,
+      this.isNumber});
 
   @override
   State<StatefulWidget> createState() {
@@ -32,6 +35,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   late Function? onChange;
   late Icon? icon;
   late bool? enabled;
+  late bool isNumber = false;
 
   @override
   void initState() {
@@ -42,11 +46,18 @@ class _CustomTextFieldState extends State<CustomTextField> {
     onChange = widget.onChange;
     icon = widget.prefixIcon;
     enabled = widget.enabled ?? true;
+    isNumber = widget.isNumber ?? false;
   }
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      keyboardType: isNumber
+          ? TextInputType.numberWithOptions(decimal: true)
+          : TextInputType.text,
+      inputFormatters: isNumber
+          ? [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))]
+          : null,
       enabled: enabled,
       onChanged: (value) {
         onChange!(value);

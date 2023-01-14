@@ -3,11 +3,16 @@ import 'package:teklifyap_mobil2/style/colors.dart';
 
 class CustomButton extends StatefulWidget implements PreferredSizeWidget {
   const CustomButton(
-      {super.key, required this.title, this.onPressed, this.color});
+      {super.key,
+      required this.title,
+      this.onPressed,
+      this.color,
+      this.backgroundColor});
 
   final String title;
   final Function? onPressed;
   final Color? color;
+  final Color? backgroundColor;
 
   @override
   State<CustomButton> createState() => _CustomButtonState();
@@ -20,6 +25,7 @@ class _CustomButtonState extends State<CustomButton> {
   late Function? onPressed;
   late String title;
   late Color color;
+  late Color? backgroundColor;
 
   @override
   void initState() {
@@ -28,6 +34,7 @@ class _CustomButtonState extends State<CustomButton> {
       onPressed = widget.onPressed;
       color = widget.color ?? Colors.black;
       title = widget.title;
+      backgroundColor = widget.backgroundColor ?? ThemeColors.primaryColor;
     });
   }
 
@@ -38,7 +45,7 @@ class _CustomButtonState extends State<CustomButton> {
         onPressed!();
       },
       style: ElevatedButton.styleFrom(
-        primary: ThemeColors.primaryColor,
+        primary: backgroundColor,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),

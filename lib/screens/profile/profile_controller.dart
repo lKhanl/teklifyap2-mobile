@@ -1,8 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:teklifyap_mobil2/style/colors.dart';
 
 import '../../Base.dart';
 import '../../models/profile_model.dart';
@@ -37,7 +39,7 @@ class ProfileController extends GetxController {
     }
   }
 
-  Future<bool> updateProfile(
+  void updateProfile(
       String name, String surname, String email, String password) async {
     final response =
         await http.put(Uri.parse("${Base.url}/api/v2/user/profile"),
@@ -52,9 +54,25 @@ class ProfileController extends GetxController {
           "Authorization": "Bearer $token",
         });
     if (response.statusCode == 200) {
-      return true;
+      Get.snackbar("Successfully", "Updated profile!",
+          colorText: ThemeColors.success);
     } else {
-      throw Exception('Failed to load post');
+      Get.snackbar("Error", response.body, colorText: ThemeColors.error);
+    }
+  }
+
+  Future<void> deleteProfile() async {
+    final response =
+        await http.delete(Uri.parse("${Base.url}/api/v2/user"), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    });
+    if (response.statusCode == 200) {
+      Get.snackbar("Successfully", "Check your email to delete your account!",
+          backgroundColor: ThemeColors.success, colorText: Colors.white);
+    } else {
+      Get.snackbar("Error", response.body,
+          backgroundColor: ThemeColors.error, colorText: Colors.white);
     }
   }
 }
