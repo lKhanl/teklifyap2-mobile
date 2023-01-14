@@ -29,7 +29,7 @@ class _MakeOfferScreenState extends State<MakeOfferScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeColors.background,
-      appBar: const CustomAppBar(title: "Profile"),
+      appBar: const CustomAppBar(title: "Make Offer"),
       bottomNavigationBar:
       const CustomBottomAppBar(from: BottomAppBarType.profile),
       body: FutureBuilder(
