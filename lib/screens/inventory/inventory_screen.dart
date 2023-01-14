@@ -25,7 +25,16 @@ class _InventoryScreenState extends State<InventoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: "Inventory"),
+      appBar: CustomAppBar(title: "Inventory", actions: [
+        // info icon button
+        IconButton(
+          icon: Icon(Icons.info_outline),
+          color: Colors.black,
+          onPressed: () {
+            _showInfoPopup();
+          },
+        ),
+      ],),
       bottomNavigationBar:
       const CustomBottomAppBar(from: BottomAppBarType.inventory),
       body: FutureBuilder(
@@ -46,7 +55,6 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     color: ThemeColors.secondaryColor,
                     child: ListTile(
                       title: Text(items[index].name),
-                      subtitle: Text(items[index].id.toString()),
                     ),
                   ),
                 );
@@ -166,4 +174,46 @@ class _InventoryScreenState extends State<InventoryScreen> {
       isClicked = !isClicked;
     });
   }
+
+  Future<void> _showInfoPopup() async {
+    toggleClicked();
+
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return SimpleDialog(
+          title: const Text('Inventory'),
+          children: <Widget>[
+            const SizedBox(height: 20),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width * 0.9,
+              child: const Text(
+                  "Inventory is a list of items that you can use to build something."
+                      " You can add items to your inventory by tapping floating button on the bottom right."
+                      " You can also delete and update items from your inventory by clicking on the item"),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SimpleDialogOption(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('Close',
+                      style: TextStyle(color: Colors.blue)),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }
