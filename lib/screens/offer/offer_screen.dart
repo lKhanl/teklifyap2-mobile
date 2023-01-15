@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teklifyap_mobil2/enums/bottom_app_bar_type.dart';
+import 'package:teklifyap_mobil2/layout/custom_loader.dart';
 import 'package:teklifyap_mobil2/models/short_offer.dart';
 import 'package:teklifyap_mobil2/screens/offer/offer_controller.dart';
 import '../../layout/custom_app_bar.dart';
@@ -82,7 +83,6 @@ class _OfferScreenState extends State<OfferScreen> {
         if (snapshot.hasData) {
           offers = snapshot.data as List<ShortOffer>;
           return ListView.builder(
-
             shrinkWrap: true,
             itemCount: offers.length,
             itemBuilder: (context, index) {
@@ -110,10 +110,7 @@ class _OfferScreenState extends State<OfferScreen> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
-        return Center(
-            child: CircularProgressIndicator(
-          color: ThemeColors.secondaryColor,
-        ));
+        return const CustomLoader();
       },
     );
   }

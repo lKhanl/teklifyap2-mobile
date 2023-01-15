@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:teklifyap_mobil2/layout/custom_app_bar.dart';
+import 'package:teklifyap_mobil2/layout/custom_loader.dart';
 import 'package:teklifyap_mobil2/layout/custom_text_field.dart';
 import 'package:teklifyap_mobil2/screens/inventory/inventory_controller.dart';
 import 'package:teklifyap_mobil2/style/colors.dart';
@@ -113,7 +114,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
-        return const Center(child: CircularProgressIndicator());
+        return const CustomLoader();
       },
     );
   }
