@@ -35,6 +35,8 @@ class InventoryController extends GetxController {
       _add(name, unit, value);
 
   Future<List<ShortItem>> _getItems() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+
     final response =
         await http.get(Uri.parse("${Base.url}/api/v2/item"), headers: {
       "Authorization": "Bearer $token",

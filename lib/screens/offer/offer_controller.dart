@@ -54,6 +54,8 @@ class OfferController extends GetxController {
   }
 
   Future<List<ShortOffer>> _getOffers() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+
     final response =
         await http.get(Uri.parse("${Base.url}/api/v2/offer"), headers: {
       "Authorization": "Bearer $token",
