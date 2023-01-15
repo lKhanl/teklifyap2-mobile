@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomHeader extends StatelessWidget {
-  String title;
+  final String title;
 
-  CustomHeader({Key? key, required this.title}) : super(key: key);
+  const CustomHeader({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

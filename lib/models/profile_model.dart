@@ -1,9 +1,3 @@
-import 'dart:convert';
-
-Profile welcomeFromJson(String str) => Profile.fromJson(json.decode(str));
-
-String welcomeToJson(Profile data) => json.encode(data.toJson());
-
 class Profile {
   Profile({
     required this.id,

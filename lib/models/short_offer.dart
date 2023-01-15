@@ -1,9 +1,3 @@
-import 'dart:convert';
-
-ShortOffer welcomeFromJson(String str) => ShortOffer.fromJson(json.decode(str));
-
-String welcomeToJson(ShortOffer data) => json.encode(data.toJson());
-
 class ShortOffer{
 
   ShortOffer({

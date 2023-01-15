@@ -1,9 +1,3 @@
-import 'dart:convert';
-
-ShortItem welcomeFromJson(String str) => ShortItem.fromJson(json.decode(str));
-
-String welcomeToJson(ShortItem data) => json.encode(data.toJson());
-
 class ShortItem {
   ShortItem({
     required this.id,
