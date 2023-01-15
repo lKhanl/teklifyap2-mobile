@@ -175,15 +175,9 @@ class _InventoryScreenState extends State<InventoryScreen> {
                       children: [
                         SimpleDialogOption(
                           onPressed: () {
-                            // deleteItem(index);
+                            _controller.deleteItem(id);
                             setState(() {
-                              _controller.deleteItem(id);
-                              for (var element in items) {
-                                if (element.id == id) {
-                                  items.remove(element);
-                                  break;
-                                }
-                              }
+                              items.removeWhere((element) => element.id == id);
                             });
                             Navigator.pop(context);
                           },

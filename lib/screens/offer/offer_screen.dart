@@ -305,7 +305,8 @@ class _OfferScreenState extends State<OfferScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               width: MediaQuery.of(context).size.width * 0.9,
-              child: const Text("Offers is a page that you can create offers."),
+              child: const Text("This page shows all offers."
+                  " You can view your offer, change status and export them."),
             ),
             const SizedBox(height: 20),
             Row(
