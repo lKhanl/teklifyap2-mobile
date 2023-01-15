@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:teklifyap_mobil2/enums/bottom_app_bar_type.dart';
 import 'package:teklifyap_mobil2/layout/custom_button.dart';
 import 'package:teklifyap_mobil2/layout/custom_text_field.dart';
-import 'package:teklifyap_mobil2/screens/profile/profile_controller.dart';
+import 'package:teklifyap_mobil2/screens/offer/offer_screen.dart';
 
 import '../../layout/custom_app_bar.dart';
 import '../../layout/custom_bottom_app_bar.dart';
-import '../../models/profile_model.dart';
 import '../../style/colors.dart';
+import 'make_offer_controller.dart';
 
 class MakeOfferScreen extends StatefulWidget {
   const MakeOfferScreen({super.key});
@@ -18,163 +18,61 @@ class MakeOfferScreen extends StatefulWidget {
 }
 
 class _MakeOfferScreenState extends State<MakeOfferScreen> {
-  final ProfileController _controller = Get.put(ProfileController());
+  final MakeOfferController _controller = Get.put(MakeOfferController());
 
-  TextEditingController nameController = TextEditingController();
-  TextEditingController surnameController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController receiverController = TextEditingController();
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController profitController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ThemeColors.background,
-      appBar: const CustomAppBar(title: "Profile"),
+      appBar: const CustomAppBar(title: "Make Offer"),
       bottomNavigationBar:
-      const CustomBottomAppBar(from: BottomAppBarType.profile),
-      body: FutureBuilder(
-        future: _controller.profile,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            var profile = snapshot.data as Profile;
-            nameController.text = profile.name;
-            surnameController.text = profile.surname;
-            emailController.text = profile.email;
-            passController.text = "";
-
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                      padding: const EdgeInsets.all(24.0),
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        padding: const EdgeInsets.all(10.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: ThemeColors.secondaryColor,
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2),
-                              spreadRadius: 2,
-                              blurRadius: 5,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
-                        ),
-                        child: FittedBox(
-                          fit: BoxFit.contain,
-                          alignment: Alignment.center,
-                          child: Text(
-                            profile.name[0].toUpperCase() +
-                                profile.surname[0].toUpperCase(),
-                            style: const TextStyle(fontSize: 36),
-                          ),
-                        ),
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width:
-                          (MediaQuery.of(context).size.width - 20) * 0.45,
-                          child: CustomTextField(
-                            placeholder: "First Name",
-                            controller: nameController,
-                            onChange: (value) {
-                              nameController.text = value;
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          width:
-                          (MediaQuery.of(context).size.width - 20) * 0.05,
-                        ),
-                        SizedBox(
-                          width:
-                          (MediaQuery.of(context).size.width - 20) * 0.45,
-                          child: CustomTextField(
-                            placeholder: 'Surname',
-                            controller: TextEditingController(
-                                text: profile.surname.toString()),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: (MediaQuery.of(context).size.width - 40),
-                        child: CustomTextField(
-                          controller: emailController,
-                          placeholder: 'Email',
-                          onChange: (value) {
-                            emailController.text = value;
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: (MediaQuery.of(context).size.width - 40),
-                        child: CustomTextField(
-                          controller: passController,
-                          placeholder: 'Password',
-                          isPassword: true,
-                          onChange: (value) {
-                            passController.text = value;
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 16),
-                    width: (MediaQuery.of(context).size.width - 40),
-                    child: CustomButton(
-                      backgroundColor: ThemeColors.secondaryColor,
-                      onPressed: () {
-                        _controller.updateProfile(
-                            nameController.text,
-                            surnameController.text,
-                            emailController.text,
-                            passController.text);
-                      },
-                      title: 'Update',
-                    ),
-                  ),
-                  SizedBox(
-                    width: (MediaQuery.of(context).size.width - 40),
-                    child: CustomButton(
-                      backgroundColor: ThemeColors.error,
-                      title: 'Delete Account',
-                      onPressed: () {
-                        _controller.deleteProfile();
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          }
-          return Center(
-              child: CircularProgressIndicator(
-                color: ThemeColors.secondaryColor,
-              ));
-        },
+          const CustomBottomAppBar(from: BottomAppBarType.profile),
+      body: Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            CustomTextField(
+              controller: titleController,
+              placeholder: 'Title',
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              controller: receiverController,
+              placeholder: 'Receiver',
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              controller: usernameController,
+              placeholder: 'Username',
+            ),
+            const SizedBox(height: 16),
+            CustomTextField(
+              controller: profitController,
+              placeholder: 'Profit',
+            ),
+            const SizedBox(height: 16),
+            CustomButton(
+              backgroundColor: ThemeColors.secondaryColor,
+              onPressed: () {
+                Get.snackbar("title", "message");
+              },
+              title: 'Add Item',
+            ),
+            const SizedBox(height: 16),
+            CustomButton(
+              onPressed: () {
+                Get.snackbar(titleController.text, receiverController.text);
+                Get.offAll(() => const OfferScreen());
+              },
+              title: 'Make Offer',
+            ),
+          ],
+        ),
       ),
     );
   }
