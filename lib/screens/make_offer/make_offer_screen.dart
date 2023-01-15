@@ -228,67 +228,62 @@ class _MakeOfferScreenState extends State<MakeOfferScreen> {
   Widget _buildSelectedItems() {
     if (offerItems.isEmpty) {
       return const Text("No item selected");
-    } else if (offerItems.length == 1) {
-      return Card(
-        color: ThemeColors.secondaryColor,
-        child: ListTile(
-          title: Text(offerItems.elementAt(0).name.toString()),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(offerItems.elementAt(0).quantity.toString()),
-              const SizedBox(width: 16),
-              Text(offerItems.elementAt(0).value.toString()),
-              const SizedBox(width: 16),
-              IconButton(
-                onPressed: () {
-                  setState(() {
-                    offerItems.remove(offerItems.elementAt(0));
-                  });
-                },
-                icon: const Icon(
-                  Icons.delete,
-                  color: Colors.redAccent,
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
     } else {
-      return ListView.builder(
-        shrinkWrap: true,
-        itemCount: offerItems.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Card(
-              color: ThemeColors.secondaryColor,
-              child: ListTile(
-                title: Text(offerItems.elementAt(0).name.toString()),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(offerItems.elementAt(0).quantity.toString()),
-                    const SizedBox(width: 16),
-                    Text(offerItems.elementAt(0).value.toString()),
-                    const SizedBox(width: 16),
-                    IconButton(
-                      onPressed: () {
-                        setState(() {
-                          offerItems.remove(offerItems.elementAt(0));
-                        });
-                      },
-                      icon: const Icon(
-                        Icons.delete,
-                        color: Colors.redAccent,
-                      ),
-                    ),
+      return Column(
+        children: [
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: 50,
+            child: Card(
+              color: Colors.grey,
+              elevation: 5,
+              child: Container(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: const [
+                    Text("Item Name"),
+                    Text("Value - Quantity - Delete"),
                   ],
                 ),
               ),
             ),
-          );
-        },
+          ),
+          ListView.builder(
+            shrinkWrap: true,
+            itemCount: offerItems.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Card(
+                  color: ThemeColors.secondaryColor,
+                  child: ListTile(
+                    title: Text(offerItems.elementAt(0).name.toString()),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(offerItems.elementAt(0).quantity.toString()),
+                        const SizedBox(width: 35),
+                        Text(offerItems.elementAt(0).value.toString()),
+                        const SizedBox(width: 10),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              offerItems.remove(offerItems.elementAt(0));
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Colors.redAccent,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ],
       );
     }
   }
