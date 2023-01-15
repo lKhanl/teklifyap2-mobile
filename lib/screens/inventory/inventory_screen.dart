@@ -59,6 +59,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     color: ThemeColors.secondaryColor,
                     child: ListTile(
                       title: Text(items[index].name),
+                      trailing: Text(items[index].value.toString()),
                     ),
                   ),
                 );
