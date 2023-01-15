@@ -38,7 +38,7 @@ class _CustomBottomAppBarState extends State<CustomBottomAppBar> {
           IconButton(
             icon: const Icon(Icons.local_offer_rounded),
             onPressed: () {
-              if (widget.from != BottomAppBarType.inventory) {
+              if (widget.from != BottomAppBarType.offers) {
                 Get.offAll(() => const OfferScreen());
               }
             },
