@@ -1,10 +1,7 @@
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:teklifyap_mobil2/enums/bottom_app_bar_type.dart';
 import 'package:teklifyap_mobil2/models/short_offer.dart';
-import 'package:teklifyap_mobil2/screens/inventory/inventory_controller.dart';
 import 'package:teklifyap_mobil2/screens/offer/offer_controller.dart';
 import '../../layout/custom_app_bar.dart';
 import '../../layout/custom_bottom_app_bar.dart';

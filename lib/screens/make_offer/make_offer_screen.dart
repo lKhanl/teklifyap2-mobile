@@ -37,7 +37,7 @@ class _MakeOfferScreenState extends State<MakeOfferScreen> {
       backgroundColor: ThemeColors.background,
       appBar: const CustomAppBar(title: "Make Offer"),
       bottomNavigationBar:
-          const CustomBottomAppBar(from: BottomAppBarType.profile),
+          const CustomBottomAppBar(from: BottomAppBarType.makeOffer),
       body: Container(
         padding: const EdgeInsets.all(16),
         child: Column(
