@@ -17,64 +17,113 @@ class OfferScreen extends StatefulWidget {
   State<OfferScreen> createState() => _OfferScreenState();
 }
 
-
 class _OfferScreenState extends State<OfferScreen> {
   final OfferController _controller = Get.put(OfferController());
   bool isClicked = false;
   late List<ShortOffer> offers;
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ThemeColors.background,
-      appBar: CustomAppBar(title: "Offers", actions: [
+
+  CustomAppBar _buildCustomAppBar() {
+    return CustomAppBar(
+      title: "Offers",
+      actions: [
         IconButton(
-          icon: Icon(Icons.info_outline),
+          icon: const Icon(Icons.info_outline),
           color: Colors.black,
           onPressed: () {
             _showInfoPopup();
           },
         ),
-      ],),
-      bottomNavigationBar:
-          const CustomBottomAppBar(from: BottomAppBarType.offers),
-      body: FutureBuilder(
-        future: _controller.get(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            offers = snapshot.data as List<ShortOffer>;
-            return ListView.builder(
-              itemCount: offers.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  enabled: !isClicked,
-                  onTap: () {
-                    toggleClicked();
-                    _showPopup(offers[index].id);
-                  },
-                  title: Card(
-                    color: ThemeColors.secondaryColor,
-                    child: ListTile(
-                      title: Text(offers[index].title),
-                      trailing: Switch(
-                        value: offers[index].status,
-                        onChanged: (bool value) {
-                            _controller.changeOfferStatus(offers[index].id);
-                          },
-                      ),
+      ],
+    );
+  }
+
+  CustomBottomAppBar _buildCustomBottomAppBar() {
+    return const CustomBottomAppBar(from: BottomAppBarType.offers);
+  }
+
+  Widget _buildBody() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: Column(
+        children: [
+          _header(),
+          _content(),
+        ],
+      ),
+    );
+  }
+
+  Widget _header() {
+    return Container(
+      margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+      width: MediaQuery.of(context).size.width * 0.92,
+      height: 50,
+      child: Card(
+        color: Colors.grey,
+        elevation: 5,
+        child: Container(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              Text("Offer Name"),
+              Text("Offer Status"),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _content() {
+    return FutureBuilder(
+      future: _controller.get(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          offers = snapshot.data as List<ShortOffer>;
+          return ListView.builder(
+
+            shrinkWrap: true,
+            itemCount: offers.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                enabled: !isClicked,
+                onTap: () {
+                  toggleClicked();
+                  _showPopup(offers[index].id);
+                },
+                title: Card(
+                  color: ThemeColors.secondaryColor,
+                  child: ListTile(
+                    title: Text(offers[index].title),
+                    trailing: Switch(
+                      value: offers[index].status,
+                      onChanged: (bool value) {
+                        _controller.changeOfferStatus(offers[index].id);
+                      },
                     ),
                   ),
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          }
-          return Center(
-              child: CircularProgressIndicator(
-            color: ThemeColors.secondaryColor,
-          ));
-        },
-      ),
+                ),
+              );
+            },
+          );
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return Center(
+            child: CircularProgressIndicator(
+          color: ThemeColors.secondaryColor,
+        ));
+      },
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: _buildCustomAppBar(),
+      bottomNavigationBar: _buildCustomBottomAppBar(),
+      body: _buildBody(),
     );
   }
 
@@ -94,7 +143,6 @@ class _OfferScreenState extends State<OfferScreen> {
             future: _controller.getDetailed(id),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-
                 Offer offer = snapshot.data as Offer;
                 titleController.text = offer.title;
                 userNameController.text = offer.userName;
@@ -107,10 +155,7 @@ class _OfferScreenState extends State<OfferScreen> {
                     const SizedBox(height: 20),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.9,
+                      width: MediaQuery.of(context).size.width * 0.9,
                       child: CustomTextField(
                         placeholder: "Title",
                         controller: titleController,
@@ -122,10 +167,7 @@ class _OfferScreenState extends State<OfferScreen> {
                     const SizedBox(height: 10),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.9,
+                      width: MediaQuery.of(context).size.width * 0.9,
                       child: CustomTextField(
                         placeholder: "User Name",
                         controller: userNameController,
@@ -137,10 +179,7 @@ class _OfferScreenState extends State<OfferScreen> {
                     const SizedBox(height: 20),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.9,
+                      width: MediaQuery.of(context).size.width * 0.9,
                       child: CustomTextField(
                         placeholder: "Receiver Name",
                         controller: receiverNameController,
@@ -152,10 +191,7 @@ class _OfferScreenState extends State<OfferScreen> {
                     const SizedBox(height: 20),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.9,
+                      width: MediaQuery.of(context).size.width * 0.9,
                       child: CustomTextField(
                         placeholder: "Profit Rate",
                         controller: profitRateController,
@@ -166,21 +202,15 @@ class _OfferScreenState extends State<OfferScreen> {
                       ),
                     ),
                     const SizedBox(height: 20),
-
-
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width * 0.9,
+                      width: MediaQuery.of(context).size.width * 0.9,
                       child: ElevatedButton(
-                        child: const Text(
-                          'Click to see items',
-                        ),
-                        onPressed: () => _showItems(offer.items)),
-                      ),
-
+                          child: const Text(
+                            'Click to see items',
+                          ),
+                          onPressed: () => _showItems(offer.items)),
+                    ),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
@@ -211,8 +241,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                 false,
                                 userNameController.text,
                                 receiverNameController.text,
-                                double.parse(profitRateController.text)
-                                );
+                                double.parse(profitRateController.text));
                             Navigator.pop(context);
                           },
                           child: const Text('Save',
@@ -233,35 +262,34 @@ class _OfferScreenState extends State<OfferScreen> {
 
   void _showItems(List<ShortItem> items) {
     Get.defaultDialog(
-        title: "Items",
-        barrierDismissible: true,
-        content: Container(
-            height: 300,
-            width: 300,
-            child: FutureBuilder(
-              builder: (context, snapshot) {
-                if (!items.isEmpty) {
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(
-                          items[index].name,
-                        ),
-                      );
-                    },
+      title: "Items",
+      barrierDismissible: true,
+      content: Container(
+        height: 300,
+        width: 300,
+        child: FutureBuilder(
+          builder: (context, snapshot) {
+            if (!items.isEmpty) {
+              return ListView.builder(
+                shrinkWrap: true,
+                itemCount: items.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(
+                      items[index].name,
+                    ),
                   );
-                } else{
-                  return const Center(
-                      child: Text("There is no items in the offer")
-                  );
-                }
-              },
-            ),
-          ),
-      );
-   }
+                },
+              );
+            } else {
+              return const Center(
+                  child: Text("There is no items in the offer"));
+            }
+          },
+        ),
+      ),
+    );
+  }
 
   Future<void> _showInfoPopup() async {
     toggleClicked();
@@ -276,12 +304,8 @@ class _OfferScreenState extends State<OfferScreen> {
             const SizedBox(height: 20),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width * 0.9,
-              child: const Text(
-                  "Offers is a page that you can create offers."),
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: const Text("Offers is a page that you can create offers."),
             ),
             const SizedBox(height: 20),
             Row(
@@ -291,8 +315,8 @@ class _OfferScreenState extends State<OfferScreen> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: const Text('Close',
-                      style: TextStyle(color: Colors.blue)),
+                  child:
+                      const Text('Close', style: TextStyle(color: Colors.blue)),
                 ),
               ],
             ),
@@ -307,8 +331,4 @@ class _OfferScreenState extends State<OfferScreen> {
       isClicked = !isClicked;
     });
   }
-
-
 }
-
-

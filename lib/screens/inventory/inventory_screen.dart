@@ -26,62 +26,111 @@ class _InventoryScreenState extends State<InventoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: "Inventory",
-        actions: [
-          // info icon button
-          IconButton(
-            icon: Icon(Icons.info_outline),
-            color: Colors.black,
-            onPressed: () {
-              _showInfoPopup();
-            },
+      appBar: _customAppBar(),
+      bottomNavigationBar: _customBottomAppBar(),
+      body: _body(),
+      floatingActionButton: _customFloatingActionButton(),
+    );
+  }
+
+  CustomAppBar _customAppBar() {
+    return CustomAppBar(
+      title: "Inventory",
+      actions: [
+        IconButton(
+          icon: const Icon(Icons.info_outline),
+          color: Colors.black,
+          onPressed: () {
+            _showInfoPopup();
+          },
+        ),
+      ],
+    );
+  }
+
+  CustomBottomAppBar _customBottomAppBar() {
+    return const CustomBottomAppBar(from: BottomAppBarType.inventory);
+  }
+
+  Widget _customFloatingActionButton() {
+    return FloatingActionButton(
+      onPressed: () {
+        _showAddPopup();
+      },
+      backgroundColor: Colors.blue,
+      child: const Icon(Icons.add),
+    );
+  }
+
+  Widget _header() {
+    return Container(
+      margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
+      width: MediaQuery.of(context).size.width * 0.92,
+      height: 50,
+      child: Card(
+        color: Colors.grey,
+        elevation: 5,
+        child: Container(
+          padding: const EdgeInsets.only(left: 20, right: 20),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: const [
+              Text("Item Name"),
+              Text("Item Value"),
+            ],
           ),
-        ],
-      ),
-      bottomNavigationBar:
-          const CustomBottomAppBar(from: BottomAppBarType.inventory),
-      body: FutureBuilder(
-        future: _controller.get(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            items = snapshot.data as List<ShortItem>;
-            return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  enabled: !isClicked,
-                  onTap: () {
-                    toggleClicked();
-                    _showPopup(items[index].id);
-                  },
-                  title: Card(
-                    color: ThemeColors.secondaryColor,
-                    child: ListTile(
-                      title: Text(items[index].name),
-                      trailing: Text(items[index].value.toString()),
-                    ),
-                  ),
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Text("${snapshot.error}");
-          }
-          return const Center(child: CircularProgressIndicator());
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showAddPopup();
-        },
-        backgroundColor: Colors.blue,
-        child: const Icon(Icons.add),
+        ),
       ),
     );
   }
 
-  Future<void> _showPopup(int id) async {
+  Widget _content() {
+    return FutureBuilder(
+      future: _controller.get(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          items = snapshot.data as List<ShortItem>;
+          return ListView.builder(
+            shrinkWrap: true,
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                enabled: !isClicked,
+                onTap: () {
+                  toggleClicked();
+                  _showPopup(items[index].id);
+                },
+                title: Card(
+                  color: ThemeColors.secondaryColor,
+                  child: ListTile(
+                    title: Text(items[index].name),
+                    trailing: Text(items[index].value.toString()),
+                  ),
+                ),
+              );
+            },
+          );
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        return const Center(child: CircularProgressIndicator());
+      },
+    );
+  }
+
+  Widget _body() {
+    return SizedBox(
+      height: MediaQuery.of(context).size.height,
+      child: Column(
+        children: [
+          _header(),
+          _content(),
+        ],
+      ),
+    );
+  }
+
+  void _showPopup(int id) async {
     toggleClicked();
     TextEditingController valueController = TextEditingController();
     TextEditingController unitController = TextEditingController();
@@ -181,7 +230,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
     });
   }
 
-  Future<void> _showInfoPopup() async {
+  void _showInfoPopup() async {
     toggleClicked();
 
     await showDialog<void>(
@@ -219,7 +268,7 @@ class _InventoryScreenState extends State<InventoryScreen> {
     );
   }
 
-  Future<void> _showAddPopup() async {
+  void _showAddPopup() async {
     TextEditingController nameController = TextEditingController();
     TextEditingController valueController = TextEditingController();
     TextEditingController unitController = TextEditingController();
