@@ -208,6 +208,15 @@ class _OfferScreenState extends State<OfferScreen> {
                           ),
                           onPressed: () => _showItems(offer.items)),
                     ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: ElevatedButton(
+                          child: const Text(
+                            'Export',
+                          ),
+                          onPressed: () => _controller.export(offer.id)),
+                    ),
                     const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,

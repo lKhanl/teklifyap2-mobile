@@ -28,20 +28,23 @@ class OfferController extends GetxController {
   Future<Offer> getDetailed(int id) => _getDetailedOffer(id);
 
   void updateOffer(int id, String title, bool status, String userName,
-      String receiverName, double profitRate) =>
-      _update(id,title,userName,receiverName,profitRate);
+          String receiverName, double profitRate) =>
+      _update(id, title, userName, receiverName, profitRate);
 
   void deleteOffer(int id) => _delete(id);
 
   void changeOfferStatus(int id) => _changeStatus(id);
 
+  void export(int id) => _export(id);
+
   Future<Offer> _getDetailedOffer(int id) async {
     final response =
-    await http.get(Uri.parse("${Base.url}/api/v2/offer/$id"), headers: {
+        await http.get(Uri.parse("${Base.url}/api/v2/offer/$id"), headers: {
       "Authorization": "Bearer $token",
     });
     if (response.statusCode == 200) {
-      Offer offer = Offer.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
+      Offer offer =
+          Offer.fromJson(jsonDecode(utf8.decode(response.bodyBytes))['data']);
       return offer;
     } else {
       Get.snackbar('Error', json.decode(response.body)['error'],
@@ -52,14 +55,14 @@ class OfferController extends GetxController {
 
   Future<List<ShortOffer>> _getOffers() async {
     final response =
-    await http.get(Uri.parse("${Base.url}/api/v2/offer"), headers: {
+        await http.get(Uri.parse("${Base.url}/api/v2/offer"), headers: {
       "Authorization": "Bearer $token",
     });
     if (response.statusCode == 200) {
       List<ShortOffer> items =
-      jsonDecode(utf8.decode(response.bodyBytes))['data']
-          .map<ShortOffer>((item) => ShortOffer.fromJson(item))
-          .toList();
+          jsonDecode(utf8.decode(response.bodyBytes))['data']
+              .map<ShortOffer>((item) => ShortOffer.fromJson(item))
+              .toList();
       return items;
     } else {
       Get.snackbar('Error', json.decode(response.body)['error'],
@@ -68,8 +71,8 @@ class OfferController extends GetxController {
     }
   }
 
-  void _update(int id, String title, String userName,
-      String receiverName, double profitRate) async {
+  void _update(int id, String title, String userName, String receiverName,
+      double profitRate) async {
     final response = await http.put(Uri.parse("${Base.url}/api/v2/offer/$id"),
         headers: {
           "Content-Type": "application/json",
@@ -92,8 +95,8 @@ class OfferController extends GetxController {
   }
 
   void _changeStatus(int id) async {
-    final response = await http.put(Uri.parse("${Base.url}/api/v2/offer/status/$id"),
-        headers: {
+    final response = await http
+        .put(Uri.parse("${Base.url}/api/v2/offer/status/$id"), headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token",
     });
@@ -109,7 +112,7 @@ class OfferController extends GetxController {
 
   void _delete(int id) async {
     final response =
-    await http.delete(Uri.parse("${Base.url}/api/v2/offer/$id"), headers: {
+        await http.delete(Uri.parse("${Base.url}/api/v2/offer/$id"), headers: {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token",
     });
@@ -123,6 +126,19 @@ class OfferController extends GetxController {
     }
   }
 
-
-
+  void _export(int id) async{
+    final response =
+    await http.get(Uri.parse("${Base.url}/api/v2/offer/export/$id"), headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    });
+    if (response.statusCode == 200) {
+      Get.snackbar('Successfully', "Check your mail!",
+          backgroundColor: ThemeColors.success);
+    } else {
+      Get.snackbar('Error', json.decode(response.body)['error'],
+          backgroundColor: ThemeColors.error);
+      throw Exception('Failed to load offers');
+    }
+  }
 }

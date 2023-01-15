@@ -31,71 +31,81 @@ class _MakeOfferScreenState extends State<MakeOfferScreen> {
 
   Set<MakeOfferItem> offerItems = {};
 
+  CustomBottomAppBar _buildBottomAppBar() {
+    return const CustomBottomAppBar(from: BottomAppBarType.makeOffer);
+  }
+
+  CustomAppBar _buildAppBar() {
+    return const CustomAppBar(title: "Make Offer");
+  }
+
+  Widget _buildBody() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          CustomTextField(
+            controller: titleController,
+            placeholder: 'Title',
+          ),
+          const SizedBox(height: 16),
+          CustomTextField(
+            controller: receiverController,
+            placeholder: 'Receiver',
+          ),
+          const SizedBox(height: 16),
+          CustomTextField(
+            controller: usernameController,
+            placeholder: 'Username',
+          ),
+          const SizedBox(height: 16),
+          CustomTextField(
+            controller: profitController,
+            placeholder: 'Profit',
+          ),
+          const SizedBox(height: 16),
+          _buildSelectedItems(),
+          const SizedBox(height: 16),
+          CustomButton(
+            backgroundColor: ThemeColors.secondaryColor,
+            onPressed: () {
+              _showPopUp();
+            },
+            title: 'Add Item',
+          ),
+          CustomButton(
+            title: 'Make Offer',
+            onPressed: () {
+              if (titleController.text == '' ||
+                  receiverController.text == '' ||
+                  usernameController.text == '' ||
+                  profitController.text == '') {
+                Get.snackbar('Error', 'Please fill all fields',
+                    backgroundColor: ThemeColors.error);
+              } else {
+                _controller.makeOffer(
+                  offerItems.toList(),
+                  MakeOffer(
+                    title: titleController.text,
+                    receiverName: receiverController.text,
+                    userName: usernameController.text,
+                    profitRate: int.parse(profitController.text),
+                  ),
+                );
+              }
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.background,
-      appBar: const CustomAppBar(title: "Make Offer"),
-      bottomNavigationBar:
-          const CustomBottomAppBar(from: BottomAppBarType.makeOffer),
-      body: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            CustomTextField(
-              controller: titleController,
-              placeholder: 'Title',
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              controller: receiverController,
-              placeholder: 'Receiver',
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              controller: usernameController,
-              placeholder: 'Username',
-            ),
-            const SizedBox(height: 16),
-            CustomTextField(
-              controller: profitController,
-              placeholder: 'Profit',
-            ),
-            const SizedBox(height: 16),
-            _buildSelectedItems(),
-            const SizedBox(height: 16),
-            CustomButton(
-              backgroundColor: ThemeColors.secondaryColor,
-              onPressed: () {
-                _showPopUp();
-              },
-              title: 'Add Item',
-            ),
-            CustomButton(
-              title: 'Make Offer',
-              onPressed: () {
-                if (titleController.text == '' ||
-                    receiverController.text == '' ||
-                    usernameController.text == '' ||
-                    profitController.text == '') {
-                  Get.snackbar('Error', 'Please fill all fields',
-                      backgroundColor: ThemeColors.error);
-                } else {
-                  _controller.makeOffer(
-                    offerItems.toList(),
-                    MakeOffer(
-                      title: titleController.text,
-                      receiverName: receiverController.text,
-                      userName: usernameController.text,
-                      profitRate: int.parse(profitController.text),
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
-        ),
-      ),
+      appBar: _buildAppBar(),
+      bottomNavigationBar: _buildBottomAppBar(),
+      body: _buildBody(),
     );
   }
 
@@ -117,7 +127,7 @@ class _MakeOfferScreenState extends State<MakeOfferScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               var items = snapshot.data as List<ShortItem>;
-
+              print("çalıştı");
               return ListView.builder(
                 shrinkWrap: true,
                 itemCount: items.length,
@@ -254,8 +264,27 @@ class _MakeOfferScreenState extends State<MakeOfferScreen> {
             title: Card(
               color: ThemeColors.secondaryColor,
               child: ListTile(
-                title: Text(offerItems.elementAt(index).name.toString()),
-                trailing: Text(offerItems.elementAt(index).quantity.toString()),
+                title: Text(offerItems.elementAt(0).name.toString()),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(offerItems.elementAt(0).quantity.toString()),
+                    const SizedBox(width: 16),
+                    Text(offerItems.elementAt(0).value.toString()),
+                    const SizedBox(width: 16),
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          offerItems.remove(offerItems.elementAt(0));
+                        });
+                      },
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.redAccent,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );
