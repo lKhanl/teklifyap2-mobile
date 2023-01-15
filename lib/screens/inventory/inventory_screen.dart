@@ -29,7 +29,12 @@ class _InventoryScreenState extends State<InventoryScreen> {
     return Scaffold(
       appBar: _customAppBar(),
       bottomNavigationBar: _customBottomAppBar(),
-      body: _body(),
+      body: Column(
+        children: [
+          _header(),
+          _content(),
+        ],
+      ),
       floatingActionButton: _customFloatingActionButton(),
     );
   }
@@ -91,43 +96,34 @@ class _InventoryScreenState extends State<InventoryScreen> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           items = snapshot.data as List<ShortItem>;
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                enabled: !isClicked,
-                onTap: () {
-                  toggleClicked();
-                  _showPopup(items[index].id);
-                },
-                title: Card(
-                  color: ThemeColors.secondaryColor,
-                  child: ListTile(
-                    title: Text(items[index].name),
-                    trailing: Text(items[index].value.toString()),
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.72,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  enabled: !isClicked,
+                  onTap: () {
+                    toggleClicked();
+                    _showPopup(items[index].id);
+                  },
+                  title: Card(
+                    color: ThemeColors.secondaryColor,
+                    child: ListTile(
+                      title: Text(items[index].name),
+                      trailing: Text(items[index].value.toString()),
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
         return const CustomLoader();
       },
-    );
-  }
-
-  Widget _body() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        children: [
-          _header(),
-          _content(),
-        ],
-      ),
     );
   }
 
@@ -298,17 +294,30 @@ class _InventoryScreenState extends State<InventoryScreen> {
                     )),
                 const SizedBox(height: 10),
                 Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: TextField(
-                      controller: unitController,
-                      decoration: const InputDecoration(
-                        hintText: "Unit",
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.all(Radius.circular(10)),
-                        ),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  height: 60,
+                  child: DropdownButtonFormField(
+                    borderRadius: BorderRadius.circular(10),
+                    hint: const Text("Unit"),
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10)),
                       ),
-                    )),
+                    ),
+                    items: ["M3", "M2", "KG", "LT", "ADET", "M", "TON"]
+                        .map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (Object? value) {
+                      unitController.text = value.toString();
+                    },
+                    menuMaxHeight: 200,
+                  ),
+                ),
                 const SizedBox(height: 10),
                 Container(
                     padding: const EdgeInsets.symmetric(horizontal: 20),

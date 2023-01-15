@@ -42,18 +42,6 @@ class _OfferScreenState extends State<OfferScreen> {
     return const CustomBottomAppBar(from: BottomAppBarType.offers);
   }
 
-  Widget _buildBody() {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height,
-      child: Column(
-        children: [
-          _header(),
-          _content(),
-        ],
-      ),
-    );
-  }
-
   Widget _header() {
     return Container(
       margin: const EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -82,30 +70,33 @@ class _OfferScreenState extends State<OfferScreen> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           offers = snapshot.data as List<ShortOffer>;
-          return ListView.builder(
-            shrinkWrap: true,
-            itemCount: offers.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                enabled: !isClicked,
-                onTap: () {
-                  toggleClicked();
-                  _showPopup(offers[index].id);
-                },
-                title: Card(
-                  color: ThemeColors.secondaryColor,
-                  child: ListTile(
-                    title: Text(offers[index].title),
-                    trailing: Switch(
-                      value: offers[index].status,
-                      onChanged: (bool value) {
-                        _controller.changeOfferStatus(offers[index].id);
-                      },
+          return SizedBox(
+            height: MediaQuery.of(context).size.height * 0.72,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: offers.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  enabled: !isClicked,
+                  onTap: () {
+                    toggleClicked();
+                    _showPopup(offers[index].id);
+                  },
+                  title: Card(
+                    color: ThemeColors.secondaryColor,
+                    child: ListTile(
+                      title: Text(offers[index].title),
+                      trailing: Switch(
+                        value: offers[index].status,
+                        onChanged: (bool value) {
+                          _controller.changeOfferStatus(offers[index].id);
+                        },
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
@@ -120,7 +111,12 @@ class _OfferScreenState extends State<OfferScreen> {
     return Scaffold(
       appBar: _buildCustomAppBar(),
       bottomNavigationBar: _buildCustomBottomAppBar(),
-      body: _buildBody(),
+      body: Column(
+        children: [
+          _header(),
+          _content(),
+        ],
+      ),
     );
   }
 
@@ -212,9 +208,7 @@ class _OfferScreenState extends State<OfferScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       width: MediaQuery.of(context).size.width * 0.9,
                       child: ElevatedButton(
-                          child: const Text(
-                            'Export',
-                          ),
+                          child: const Text('Export'),
                           onPressed: () => _controller.export(offer.id)),
                     ),
                     const SizedBox(height: 20),
