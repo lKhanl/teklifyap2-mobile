@@ -24,7 +24,37 @@ It is a project for small and medium-sized construction companies and self-emplo
 
 ## Screen Shots
 
-### Init & Login & Register
+### * Init & Login & Register
 
 <img src="ss/init.png" alt="init" style="width:300px;"/> <img src="ss/login.png" alt="login" style="width:300px;"/> <img src="ss/register.png" alt="register" style="width:300px;"/>
+
+### * Inventory
+
+<img src="ss/inventory.png" alt="init" style="width:300px;"/> <img src="ss/inv_popup.png" alt="init" style="width:300px;"/>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
