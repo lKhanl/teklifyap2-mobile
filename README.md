@@ -24,14 +24,25 @@ It is a project for small and medium-sized construction companies and self-emplo
 
 ## Screen Shots
 
-### * Init & Login & Register
+### Init & Login & Register
 
 <img src="ss/init.png" alt="init" style="width:300px;"/> <img src="ss/login.png" alt="login" style="width:300px;"/> <img src="ss/register.png" alt="register" style="width:300px;"/>
 
-### * Inventory
+### Inventory
 
 <img src="ss/inventory.png" alt="init" style="width:300px;"/> <img src="ss/inv_popup.png" alt="init" style="width:300px;"/>
 
+### Offers
+
+<img src="ss/offes_no.png" alt="init" style="width:300px;"/> <img src="ss/offer.png" alt="init" style="width:300px;"/> <img src="ss/offer popup.png" alt="init" style="width:300px;"/>
+
+### Make Offer
+
+<img src="ss/make offer.png" alt="init" style="width:300px;"/> <img src="ss/make offer popup.png" alt="init" style="width:300px;"/> <img src="ss/make offer final.png" alt="init" style="width:300px;"/>
+
+### Profile
+
+<img src="ss/profile.png" alt="init" style="width:300px;"/>
 
 
 
