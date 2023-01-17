@@ -70,6 +70,14 @@ class _OfferScreenState extends State<OfferScreen> {
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           offers = snapshot.data as List<ShortOffer>;
+          if (offers.isEmpty) {
+            return Center(
+              child: Container(
+                margin: EdgeInsets.only(top: 20),
+                child: Text("No offers", style: TextStyle(fontSize: 20)),
+              ),
+            );
+          }
           return SizedBox(
             height: MediaQuery.of(context).size.height * 0.72,
             child: ListView.builder(
