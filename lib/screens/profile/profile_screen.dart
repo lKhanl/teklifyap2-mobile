@@ -97,9 +97,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: CustomTextField(
                           placeholder: "First Name",
                           controller: nameController,
-                          onChange: (value) {
-                            nameController.text = value;
-                          },
                         ),
                       ),
                       SizedBox(
@@ -124,9 +121,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: CustomTextField(
                         controller: emailController,
                         placeholder: 'Email',
-                        onChange: (value) {
-                          emailController.text = value;
-                        },
                       ),
                     ),
                   ],
@@ -141,9 +135,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         controller: passController,
                         placeholder: 'Password',
                         isPassword: true,
-                        onChange: (value) {
-                          passController.text = value;
-                        },
                       ),
                     ),
                   ],

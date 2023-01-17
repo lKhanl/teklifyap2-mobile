@@ -55,7 +55,7 @@ class ProfileController extends GetxController {
         });
     if (response.statusCode == 200) {
       Get.snackbar("Successfully", "Updated profile!",
-          colorText: ThemeColors.success);
+          backgroundColor: ThemeColors.success);
     } else {
       Get.snackbar("Error", response.body, colorText: ThemeColors.error);
     }
