@@ -9,15 +9,15 @@ It is a project for small and medium-sized construction companies and self-emplo
 
 ## Major Features
 
-•	There user must be able to register. \
-  o	For registration, it must be verified by mail, so sending mail must be implemented. \
-•	The user must be able to login.  \
-•	In the system the user should be able to create an account. \
-•	When a user created an account a default material list added to that account. \
-  o	Every material has a unite price. \
-  o	Evert material has a unite. \
-•	User must be able to update material list and add additional materials to it. \
-•	User must be able to create an offer. \
-  o	While creating an offer user should be able to specify the materials for that offer. \
-•	User must be able to update an offer.\
-•	User must be able to see all the offers. (Accepted or declined).
+1.	There user must be able to register. \
+  *	For registration, it must be verified by mail, so sending mail must be implemented. \
+2.	The user must be able to login.  \
+3.	In the system the user should be able to create an account. \
+4.	When a user created an account a default material list added to that account. \
+  *	Every material has a unite price. \
+  *	Evert material has a unite. \
+5.	User must be able to update material list and add additional materials to it. \
+6.	User must be able to create an offer. \
+  *	While creating an offer user should be able to specify the materials for that offer. \
+7.	User must be able to update an offer.\
+8.	User must be able to see all the offers. (Accepted or declined).
