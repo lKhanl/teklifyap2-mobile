@@ -21,3 +21,11 @@ It is a project for small and medium-sized construction companies and self-emplo
    *	While creating an offer user should be able to specify the materials for that offer.
 7.	User must be able to update an offer.
 8.	User must be able to see all the offers. (Accepted or declined).
+
+## Screen Shots
+
+### Init & Login & Register
+
+![init](ss/init.png)
+![login](ss/login.png)
+![register](ss/register.png)
